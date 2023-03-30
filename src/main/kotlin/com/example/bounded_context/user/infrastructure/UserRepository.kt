@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository
 interface UserRepository {
     fun create(name: String, email: String): Unit
     fun findAll(): List<User>
+    fun update(id: Int, name: String, email: String): Unit
     fun delete(id: Int): Unit
 }
 
@@ -38,6 +39,23 @@ class UserRepositoryImpl(private val namedParameterJdbcTemplate: NamedParameterJ
                 it["email"].toString(),
             )
         }
+    }
+
+    override fun update(id: Int, name: String, email: String): Unit {
+        val sql = """
+            UPDATE users 
+            SET 
+                name = :name,
+                email = :email 
+            WHERE id = :id;
+        """.trimIndent()
+
+        val sqlParams = MapSqlParameterSource()
+            .addValue("name", name)
+            .addValue("email", email)
+            .addValue("id", id)
+        namedParameterJdbcTemplate.update(sql, sqlParams)
+        return
     }
 
     override fun delete(id: Int) {
