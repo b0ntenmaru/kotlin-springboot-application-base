@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  #
+  # PostgreSQL
+  #
+  pg:
+    image: postgres:14-bullseye
+    container_name: pg
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: pg-db
+      POSTGRES_INIT_DB_ARGS: --encoding=UTF-8
+    volumes:
+      - pg-volume:/volume_dir
+
+volumes:
+  pg-volume:
