@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController
 class UsersController(val userRepository: UserRepository) {
 
     @GetMapping("/users")
-    fun index(): List<User> {
+    fun read(): List<User> {
         return userRepository.findAll()
     }
 
