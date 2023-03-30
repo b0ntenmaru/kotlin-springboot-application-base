@@ -1,16 +1,15 @@
-package com.example.bounded_context.user
+package com.example.bounded_context.user.presentation
 
 import com.example.bounded_context.user.domain.User
+import com.example.bounded_context.user.infrastructure.UserRepository
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class UsersController {
+class UsersController(val userRepository: UserRepository) {
 
     @GetMapping("/users")
     fun index(): List<User> {
-        val user = User(1, "hiroaki date", "example@email.com")
-
-        return listOf(user)
+        return userRepository.findAll()
     }
 }
