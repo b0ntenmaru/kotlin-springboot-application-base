@@ -10,7 +10,7 @@ import com.example.bounded_context.user.infrastructure.entity.User as EntityUser
 interface UserRepository {
     fun create(name: String, email: String): Unit
     fun findAll(): List<User>
-    fun update(id: Int, name: String, email: String): Unit
+    fun update(id: Long, name: String, email: String): Unit
     fun delete(id: Long): Unit
 }
 
@@ -39,20 +39,9 @@ class UserRepositoryImpl(
         return domainUsers
     }
 
-    override fun update(id: Int, name: String, email: String): Unit {
-        val sql = """
-            UPDATE users 
-            SET 
-                name = :name,
-                email = :email 
-            WHERE id = :id;
-        """.trimIndent()
-
-        val sqlParams = MapSqlParameterSource()
-            .addValue("name", name)
-            .addValue("email", email)
-            .addValue("id", id)
-        namedParameterJdbcTemplate.update(sql, sqlParams)
+    override fun update(id: Long, name: String, email: String): Unit {
+        val user = EntityUser(id, name, email)
+        jpaUserRepository.save(user)
         return
     }
 

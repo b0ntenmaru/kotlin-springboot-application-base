@@ -45,7 +45,7 @@ data class DeleteUserRequest(
 )
 
 data class UpdateUserRequest(
-    val id: Int,
+    val id: Long,
     val name: String,
     val email: String
 )
