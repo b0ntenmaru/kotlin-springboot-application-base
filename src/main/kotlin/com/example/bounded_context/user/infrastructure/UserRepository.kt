@@ -1,6 +1,7 @@
 package com.example.bounded_context.user.infrastructure
 
 import com.example.bounded_context.user.domain.User
+import com.example.bounded_context.user.infrastructure.entity.JpaUserRepository
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.stereotype.Repository
@@ -13,7 +14,10 @@ interface UserRepository {
 }
 
 @Repository
-class UserRepositoryImpl(private val namedParameterJdbcTemplate: NamedParameterJdbcTemplate): UserRepository {
+class UserRepositoryImpl(
+    private val namedParameterJdbcTemplate: NamedParameterJdbcTemplate,
+    private val jpaUserRepository: JpaUserRepository
+): UserRepository {
 
     override fun create(name: String, email: String): Unit {
         val sql = """
@@ -27,18 +31,18 @@ class UserRepositoryImpl(private val namedParameterJdbcTemplate: NamedParameterJ
         namedParameterJdbcTemplate.update(sql, sqlParams)
         return
     }
-
+    
     override fun findAll(): List<User> {
-        val sql = "select * from users"
-        val sqlParams = MapSqlParameterSource()
-        val userMap = namedParameterJdbcTemplate.queryForList(sql, sqlParams)
-        return userMap.map {
+        val userRecords = jpaUserRepository.findAll()
+
+        val domainUsers = userRecords.map { user ->
             User(
-                it["id"].toString().toInt().toLong(),
-                it["name"].toString(),
-                it["email"].toString(),
+                id = user.id ?: throw IllegalStateException("User ID must not be null"),
+                name = user.name,
+                email = user.email
             )
         }
+        return domainUsers
     }
 
     override fun update(id: Int, name: String, email: String): Unit {
