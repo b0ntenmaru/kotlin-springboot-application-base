@@ -11,7 +11,7 @@ interface UserRepository {
     fun create(name: String, email: String): Unit
     fun findAll(): List<User>
     fun update(id: Int, name: String, email: String): Unit
-    fun delete(id: Int): Unit
+    fun delete(id: Long): Unit
 }
 
 @Repository
@@ -56,11 +56,8 @@ class UserRepositoryImpl(
         return
     }
 
-    override fun delete(id: Int) {
-        val sql = "delete from users where id = :id;"
-        val sqlParams = MapSqlParameterSource()
-            .addValue("id", id)
-        namedParameterJdbcTemplate.update(sql, sqlParams)
+    override fun delete(id: Long) {
+        jpaUserRepository.deleteById(id)
         return
     }
 }
