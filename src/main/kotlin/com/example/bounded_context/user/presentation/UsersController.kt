@@ -41,11 +41,11 @@ data class CreateUserRequest(
 )
 
 data class DeleteUserRequest(
-    val id: Int
+    val id: Long
 )
 
 data class UpdateUserRequest(
-    val id: Int,
+    val id: Long,
     val name: String,
     val email: String
 )
