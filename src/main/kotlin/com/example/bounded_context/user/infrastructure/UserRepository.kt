@@ -5,6 +5,7 @@ import com.example.bounded_context.user.infrastructure.entity.JpaUserRepository
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.stereotype.Repository
+import com.example.bounded_context.user.infrastructure.entity.User as EntityUser
 
 interface UserRepository {
     fun create(name: String, email: String): Unit
@@ -20,15 +21,8 @@ class UserRepositoryImpl(
 ): UserRepository {
 
     override fun create(name: String, email: String): Unit {
-        val sql = """
-            INSERT INTO
-                users (name, email)
-            VALUES (:name, :email);
-        """.trimIndent()
-        val sqlParams = MapSqlParameterSource()
-            .addValue("name", name)
-            .addValue("email", email)
-        namedParameterJdbcTemplate.update(sql, sqlParams)
+        val user = EntityUser(null, name, email)
+        jpaUserRepository.save(user)
         return
     }
     
