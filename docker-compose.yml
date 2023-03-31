@@ -15,7 +15,7 @@ services:
       POSTGRES_DB: pg-db
       POSTGRES_INIT_DB_ARGS: --encoding=UTF-8
     volumes:
-      - pg-volume:/volume_dir
+      - pg-volume:/var/lib/postgresql/data
 
 volumes:
   pg-volume:
