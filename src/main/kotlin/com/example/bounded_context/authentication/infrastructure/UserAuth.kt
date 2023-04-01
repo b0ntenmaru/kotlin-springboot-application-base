@@ -1,4 +1,4 @@
-package com.example.bounded_context.authentication
+package com.example.bounded_context.authentication.infrastructure
 
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue

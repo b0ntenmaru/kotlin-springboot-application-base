@@ -1,7 +1,8 @@
-package com.example.bounded_context.authentication
+package com.example.bounded_context.authentication.presentational
 
+import com.example.bounded_context.authentication.infrastructure.UserAuth
+import com.example.bounded_context.authentication.infrastructure.UserAuthRepository
 import org.springframework.http.ResponseEntity
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
