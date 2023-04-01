@@ -2,8 +2,6 @@ package com.example.bounded_context.user.infrastructure
 
 import com.example.bounded_context.user.domain.User
 import com.example.bounded_context.user.infrastructure.entity.JpaUserRepository
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.stereotype.Repository
 import com.example.bounded_context.user.infrastructure.entity.User as EntityUser
 
@@ -16,7 +14,6 @@ interface UserRepository {
 
 @Repository
 class UserRepositoryImpl(
-    private val namedParameterJdbcTemplate: NamedParameterJdbcTemplate,
     private val jpaUserRepository: JpaUserRepository
 ): UserRepository {
 
